@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - net
+      
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - net
+
+  backend:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - db
+    networks:
+      - net
+
+
+networks:
+  net:
+    name: net
+    driver: bridge
